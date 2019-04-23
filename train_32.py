@@ -14,6 +14,7 @@ BATCH_SIZE = 64
 TRAIN_ITR = 100000
 IMG_H = 32
 IMG_W = 32
+TRUNCATION = 2.0
 
 def Train():
     x = tf.placeholder(tf.float32, [None, IMG_H, IMG_W, 3])
@@ -53,13 +54,13 @@ def Train():
             e_read = time.time()
             readtime += e_read - s_read
             batch = batch / 127.5 - 1
-            Z = truncated_noise_sample(BATCH_SIZE, Z_DIM)
+            Z = truncated_noise_sample(BATCH_SIZE, Z_DIM, TRUNCATION)
             s_up = time.time()
             sess.run(D_opt, feed_dict={z: Z, x: batch, train_phase: True, y: Y})
             e_up = time.time()
             updatetime += e_up - s_up
 
-        Z = truncated_noise_sample(BATCH_SIZE, Z_DIM)
+        Z = truncated_noise_sample(BATCH_SIZE, Z_DIM, TRUNCATION)
         s = time.time()
         sess.run(G_opt, feed_dict={z: Z, train_phase: True, y: Y})
         e = time.time()
