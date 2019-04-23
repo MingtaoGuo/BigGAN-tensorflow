@@ -14,6 +14,7 @@ IMG_W = 64
 Z_DIM = 128
 BATCH_SIZE = 64
 TRAIN_ITR = 100000
+TRUNCATION = 2.0
 
 def Train():
     x = tf.placeholder(tf.float32, [None, IMG_H, IMG_W, 3])
@@ -55,12 +56,12 @@ def Train():
             updatetime += e_up - s_up
 
         s = time.time()
-        Z = truncated_noise_sample(BATCH_SIZE, Z_DIM)
+        Z = truncated_noise_sample(BATCH_SIZE, Z_DIM, TRUNCATION)
         sess.run(G_opt, feed_dict={z: Z, train_phase: True, y: Y})
         e = time.time()
         one_itr_time = e - s + updatetime + readtime
         if itr % 100 == 0:
-            Z = truncated_noise_sample(BATCH_SIZE, Z_DIM)
+            Z = truncated_noise_sample(BATCH_SIZE, Z_DIM, TRUNCATION)
             Dis_loss = sess.run(D_loss, feed_dict={z: Z, x: batch, train_phase: False, y: Y})
             Gen_loss = sess.run(G_loss, feed_dict={z: Z, train_phase: False, y: Y})
             print("Iteration: %d, D_loss: %f, G_loss: %f, Read_time: %f, Updata_time: %f, One_itr_time: %f" % (itr, Dis_loss, Gen_loss, readtime, updatetime, one_itr_time))
