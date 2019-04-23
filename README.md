@@ -31,6 +31,7 @@ Training iteration: 100,000
 |Hierarchical latent|:x:|:heavy_check_mark:|
 |Projection batchnorm|:heavy_check_mark:|:x:|
 
+#### Generation
 ![](https://github.com/MingtaoGuo/BigGAN-tensorflow/blob/master/IMGS/cifar10.jpg)
 
 64x64 ImageNet
