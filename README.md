@@ -21,6 +21,7 @@ Just download the dataset, and put them into the folder 'dataset'
 --------------
 #### Configuration:
 Training iteration: 100,000
+Truncation threshold: 1.0
 
 ||Discriminator|Generator|
 |-|-|-|
@@ -31,6 +32,7 @@ Training iteration: 100,000
 |Hierarchical latent|:x:|:heavy_check_mark:|
 |Projection batchnorm|:heavy_check_mark:|:x:|
 
+A little mode collapse (truncation threshold is too small).
 #### Generation:
 ![](https://github.com/MingtaoGuo/BigGAN-tensorflow/blob/master/IMGS/cifar10.jpg)
 
