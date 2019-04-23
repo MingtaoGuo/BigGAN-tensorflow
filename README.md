@@ -26,10 +26,10 @@ Training iteration: 100,000
 |-|-|-|
 |Update step|2|1|
 |Learning rate|4e-4|1e-4|
-|Orthogonal reg|True|True|
-|Orthogonal init|True|True|
-|Hierarchical latent|X|True|
-|Projection batchnorm|True|X|
+|Orthogonal reg|:heavy_check_mark:|:heavy_check_mark:|
+|Orthogonal init|:heavy_check_mark:|:heavy_check_mark:|
+|Hierarchical latent|:x:|:heavy_check_mark:|
+|Projection batchnorm|:heavy_check_mark:|:x:|
 
 ![](https://github.com/MingtaoGuo/BigGAN-tensorflow/blob/master/IMGS/cifar10.jpg)
 
@@ -42,10 +42,10 @@ Training iteration: 100,000
 |-|-|-|
 |Update step|2|1|
 |Learning rate|4e-4|1e-4|
-|Orthogonal reg|True|True|
-|Orthogonal init|True|True|
-|Hierarchical latent|X|True|
-|Projection batchnorm|True|X|
+|Orthogonal reg|:heavy_check_mark:|:heavy_check_mark:|
+|Orthogonal init|:heavy_check_mark:|:heavy_check_mark:|
+|Hierarchical latent|:x:|:heavy_check_mark:|
+|Projection batchnorm|:heavy_check_mark:|:x:|
 
 Under training ..........
 -----------
