@@ -36,6 +36,10 @@ A little mode collapse (truncation threshold is too small).
 #### Generation:
 ![](https://github.com/MingtaoGuo/BigGAN-tensorflow/blob/master/IMGS/cifar10.jpg)
 
+|car2plane|ship2horse|cat2bird|
+|-|-|-|
+|![](https://github.com/MingtaoGuo/BigGAN-tensorflow/blob/master/IMGS/car2plane.gif)|![](https://github.com/MingtaoGuo/BigGAN-tensorflow/blob/master/IMGS/ship2horse.gif)|![](https://github.com/MingtaoGuo/BigGAN-tensorflow/blob/master/IMGS/cat2bird.gif)|
+
 64x64 ImageNet
 --------------
 #### Configuration:
