@@ -31,6 +31,7 @@ Truncation threshold: 1.0
 |Orthogonal init|:heavy_check_mark:|:heavy_check_mark:|
 |Hierarchical latent|:x:|:heavy_check_mark:|
 |Projection batchnorm|:heavy_check_mark:|:x:|
+|Truncation threshold|:x:|:heavy_check_mark:|
 
 #### Generation:
 Truncation threshold = 1.0, A little mode collapse (truncation threshold is too small).
@@ -58,6 +59,7 @@ Training iteration: 100,000
 |Orthogonal init|:heavy_check_mark:|:heavy_check_mark:|
 |Hierarchical latent|:x:|:heavy_check_mark:|
 |Projection batchnorm|:heavy_check_mark:|:x:|
+|Truncation threshold|:x:|:heavy_check_mark:|
 
 Under training ..........
 -----------
