@@ -61,6 +61,9 @@ Training iteration: 100,000
 |Projection batchnorm|:heavy_check_mark:|:x:|
 |Truncation threshold|:x:|:heavy_check_mark:|
 
+Iteration: 30,000
+![](https://github.com/MingtaoGuo/BigGAN-tensorflow/blob/master/IMGS/imagenet64.jpg)
+Iteration: 60,000
 Under training ..........
 -----------
 To be continue.
