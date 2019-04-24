@@ -32,9 +32,14 @@ Truncation threshold: 1.0
 |Hierarchical latent|:x:|:heavy_check_mark:|
 |Projection batchnorm|:heavy_check_mark:|:x:|
 
-A little mode collapse (truncation threshold is too small).
 #### Generation:
+Truncation threshold = 1.0, A little mode collapse (truncation threshold is too small).
+
 ![](https://github.com/MingtaoGuo/BigGAN-tensorflow/blob/master/IMGS/cifar10.jpg)
+
+Truncation threshold = 2.0.
+
+![](https://github.com/MingtaoGuo/BigGAN-tensorflow/blob/master/IMGS/cifar10-trun-2.jpg)
 
 |car2plane|ship2horse|cat2bird|
 |-|-|-|
