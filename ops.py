@@ -31,31 +31,52 @@ def conditional_batchnorm(x, train_phase, scope_bn, splited_z=None, y=None, nums
         normed = tf.nn.batch_normalization(x, mean, var, beta, gamma, 1e-3)
     return normed
 
+# def non_local(name, inputs, update_collection, is_sn):
+#     H = inputs.shape[1]
+#     W = inputs.shape[2]
+#     C = inputs.shape[3]
+#     C_ = C // 8
+#     inputs_ = tf.transpose(inputs, perm=[0, 3, 1, 2])
+#     inputs_ = tf.reshape(inputs_, [-1, C, H * W])
+#     with tf.variable_scope(name):
+#         f = conv("f", inputs, C_, 1, 1, update_collection, is_sn)
+#         g = conv("g", inputs, C_, 1, 1, update_collection, is_sn)
+#         h = conv("h", inputs, C, 1, 1, update_collection, is_sn)
+#         f = tf.transpose(f, [0, 3, 1, 2])
+#         f = tf.reshape(f, [-1, C_, H * W])
+#         g = tf.transpose(g, [0, 3, 1, 2])
+#         g = tf.reshape(g, [-1, C_, H * W])
+#         h = tf.transpose(h, [0, 3, 1, 2])
+#         h = tf.reshape(h, [-1, C, H * W])
+#         s = tf.matmul(f, g, transpose_a=True)
+#         beta = tf.nn.softmax(s, dim=0)
+#         o = tf.matmul(h, beta)
+#         gamma = tf.get_variable("gamma", [], initializer=tf.constant_initializer(0.))
+#         y = gamma * o + inputs_
+#         y = tf.reshape(y, [-1, C, H, W])
+#         y = tf.transpose(y, perm=[0, 2, 3, 1])
+#     return y
+
 def non_local(name, inputs, update_collection, is_sn):
-    H = inputs.shape[1]
-    W = inputs.shape[2]
-    C = inputs.shape[3]
-    C_ = C // 8
-    inputs_ = tf.transpose(inputs, perm=[0, 3, 1, 2])
-    inputs_ = tf.reshape(inputs_, [-1, C, H * W])
+    h, w, num_channels = inputs.shape[1], inputs.shape[2], inputs.shape[3]
+    location_num = h * w
+    downsampled_num = location_num // 4
     with tf.variable_scope(name):
-        f = conv("f", inputs, C_, 1, 1, update_collection, is_sn)
-        g = conv("g", inputs, C_, 1, 1, update_collection, is_sn)
-        h = conv("h", inputs, C, 1, 1, update_collection, is_sn)
-        f = tf.transpose(f, [0, 3, 1, 2])
-        f = tf.reshape(f, [-1, C_, H * W])
-        g = tf.transpose(g, [0, 3, 1, 2])
-        g = tf.reshape(g, [-1, C_, H * W])
-        h = tf.transpose(h, [0, 3, 1, 2])
-        h = tf.reshape(h, [-1, C, H * W])
-        s = tf.matmul(f, g, transpose_a=True)
-        beta = tf.nn.softmax(s, dim=0)
-        o = tf.matmul(h, beta)
-        gamma = tf.get_variable("gamma", [], initializer=tf.constant_initializer(0.))
-        y = gamma * o + inputs_
-        y = tf.reshape(y, [-1, C, H, W])
-        y = tf.transpose(y, perm=[0, 2, 3, 1])
-    return y
+        theta = conv("f", inputs, num_channels // 8, 1, 1, update_collection, is_sn)
+        theta = tf.reshape(theta, [-1, location_num, num_channels // 8])
+        phi = conv("h", inputs, num_channels // 8, 1, 1, update_collection, is_sn)
+        phi = downsampling(phi)
+        phi = tf.reshape(phi, [-1, downsampled_num, num_channels // 8])
+        attn = tf.matmul(theta, phi, transpose_b=True)
+        attn = tf.nn.softmax(attn)
+        g = conv("g", inputs, num_channels // 2, 1, 1, update_collection, is_sn)
+        g = downsampling(g)
+        g = tf.reshape(g, [-1, downsampled_num, num_channels // 2])
+        attn_g = tf.matmul(attn, g)
+        attn_g = tf.reshape(attn_g, [-1, h, w, num_channels // 2])
+        sigma = tf.get_variable("sigma_ratio", [], initializer=tf.constant_initializer(0.0))
+        attn_g = conv("attn", attn_g, num_channels, 1, 1, update_collection, is_sn)
+        return inputs + sigma * attn_g
 
 def conv(name, inputs, nums_out, k_size, strides, update_collection=None, is_sn=False):
     nums_in = inputs.shape[-1]
