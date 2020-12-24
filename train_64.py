@@ -49,7 +49,7 @@ def Train():
             e_read = time.time()
             readtime += e_read - s_read
             batch = batch / 127.5 - 1
-            Z = truncated_noise_sample(BATCH_SIZE, Z_DIM)
+            Z = truncated_noise_sample(BATCH_SIZE, Z_DIM, TRUNCATION)
             s_up = time.time()
             sess.run(D_opt, feed_dict={z: Z, x: batch, train_phase: True, y: Y})
             e_up = time.time()
